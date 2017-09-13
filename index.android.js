@@ -12,7 +12,8 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
-  Animated
+  Animated,
+  Button
 } from 'react-native';
 import MapView from 'react-native-maps';
 import RNGooglePlaces from 'react-native-google-places';
@@ -42,7 +43,7 @@ export default class Maps extends Component {
 
   render() {
 
-    const markers = [
+    var markers = [
       {
         title: this.state.name,
         description : this.state.address,
@@ -54,9 +55,7 @@ export default class Maps extends Component {
 
       <View style = { styles.container } >
 
-        <TouchableOpacity onPress = { () => this.openSearchModal() } >
-          <Text style = {{ fontSize: 20, marginTop: 30 }}> Pick a Place </Text>
-        </TouchableOpacity>
+        <Button title = 'Pick a Place' onPress = { () => this.openSearchModal() } />
 
         <MapView
           ref = { (mapy) => this.maps = mapy }
@@ -68,14 +67,15 @@ export default class Maps extends Component {
           initialRegion = {{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
           }}
         >
           { markers.map(marker => (
-            <MapView.Marker
+            <MapView.Marker draggable
               key = { marker.title }
               coordinate = { marker.latlng }
+              onDragEnd={(e) => { console.log("marker", e.nativeEvent ); markers.latlng = e.nativeEvent.coordinate} }
               title = { marker.title }
               description = { marker.description }
             />
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').height,
   },
   map: {
-      height: Dimensions.get('window').height,
+      height: Dimensions.get('window').height * 0.9,
       width: Dimensions.get('window').width,
       justifyContent: 'center',
       alignItems: 'center',
