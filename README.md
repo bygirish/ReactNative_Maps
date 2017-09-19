@@ -3,6 +3,7 @@
 
 ### App demo
 
+<img src = './demo.gif' />
 
 *-This project contains a simple react-native map that lets user to navigate with an animated marker.-*
 
